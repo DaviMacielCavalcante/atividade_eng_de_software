@@ -1,0 +1,17 @@
+body {
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background-color: white;
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    padding: 10px;
+    width: 250px;
+    color: black;
+  }
