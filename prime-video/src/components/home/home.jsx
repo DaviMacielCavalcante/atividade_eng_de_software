@@ -1,11 +1,15 @@
 import {useState} from "react"
 import styles from './home.module.css';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
+    const navigate = useNavigate();
     const [login, setLogin] = useState("");
     const [pwd, setPwd] = useState("");
     const [msg, setMsg] = useState("");
     const [valid, setValid] = useState(false);
+    const [newuser, setNewUser] = useState("");
+    const [newpwd, setNewPwd] = useState("");
 
     const loginHandler = (e) => {
         setLogin(e.target.value);
@@ -21,11 +25,13 @@ function Home() {
 
         if (login === user && pwd === senha) {
         setValid(true);
-        setMsg("");
+        setMsg("Login realizado com sucesso!");
+        navigate('/escolherPerfil')
         } else {
         setMsg("Acesso negado!");
         }
     }
+
 
     return (
     <div className={styles.container}>
