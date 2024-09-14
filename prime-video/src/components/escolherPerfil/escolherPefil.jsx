@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './escolherPerfil.module.css';  // Estilos CSS module para essa página
+import { useNavigate } from 'react-router-dom';
 
 const profiles = [
   { id: '1', name: 'Perfil 1' },
@@ -9,6 +10,10 @@ const profiles = [
 ];
 
 function EscolherPerfil() {
+
+  const [valid, setValid] = useState(false);
+  const navigate = useNavigate();
+
   const [selectedProfile, setSelectedProfile] = useState(null);
 
   const handleProfileSelect = (profile) => {
@@ -23,7 +28,10 @@ function EscolherPerfil() {
           <li 
             key={profile.id} 
             className={`${styles.profileItem} ${profile.id === selectedProfile ? styles.selected : ''}`}
-            onClick={() => handleProfileSelect(profile)}
+            onClick={() => {
+              handleProfileSelect(profile)
+              navigate('/selecaoConteudo')
+            }}
           >
             {profile.name}
           </li>

@@ -1,11 +1,14 @@
 
 import { useState } from 'react';
 import styles from './home.module.css';
+import { useNavigate } from 'react-router-dom';
 
-function Home({ onLoginSuccess }) {
+function Home() {
   const [login, setLogin] = useState('');
   const [pwd, setPwd] = useState('');
   const [msg, setMsg] = useState('');
+  const [valid, setValid] = useState(false);
+  const navigate = useNavigate();
 
   const loginHandler = (e) => {
     setLogin(e.target.value);
@@ -20,11 +23,12 @@ function Home({ onLoginSuccess }) {
     const senha = '12345';
 
     if (login === user && pwd === senha) {
-      setMsg('');
-      onLoginSuccess(); 
-    } else {
-      setMsg('Acesso negado!');
-    }
+      setValid(true);
+      setMsg("Login realizado com sucesso!");
+      navigate('/escolherPerfil')
+      } else {
+      setMsg("Acesso negado!");
+      }
   };
 
   return (
