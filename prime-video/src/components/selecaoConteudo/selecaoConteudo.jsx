@@ -13,13 +13,26 @@ const SelecaoConteudo = () => {
     { title: 'The Last of Us', url: 'https://www.youtube.com/watch?v=ObiBEgSaoqs&pp=ygUHdHJhaWxlcg%3D%3D', sinopse: 'Joel, um sobrevivente solitário e que perdeu sua filha adolescente no início do apocalipse, recebe a missão de levar para fora de uma zona de quarentena uma menina de 14 anos, chamada Ellie. A jovem é a única humana conhecida que é imune ao fungo e se torna a esperança de uma cura.' },
     { title: 'Mulan', sinopse: 'Mulan, uma jovem chinesa que não se encaixa na sociedade, teme que seu pai, um homem doente, seja convocado para lutar na guerra que se aproxima. A garota então se disfarça de homem e assume o posto de seu pai no exército chinês. Acompanhada por seu dragão Mushu, Mulan parte para a linha de batalha, faz amizade com os outros soldados e usa sua inteligência para ajudar a combater a invasão dos hunos enquanto luta para esconder sua verdadeira identidade.' }
   ];
+  
   const handleButtonClick = (content) => {
     if (!content.url) {
-      alert('Conteúdo indisponível temporariamente! Tente novamente mais tarde.');
+      showCustomError('Estamos com problemas para carregar este conteúdo. Tente mais tarde.');
     } else {
       window.open(content.url, '_blank');
     }
   };
+
+  const showCustomError = (message) => {
+    const notification = document.createElement('div');
+    notification.className = styles.customNotification; 
+    notification.innerText = message;
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+      notification.remove();
+    }, 10000);
+  };
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Escolha o Conteúdo para Reproduzir</h1>
