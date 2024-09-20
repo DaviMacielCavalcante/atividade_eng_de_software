@@ -17,6 +17,7 @@ function App() {
         <Route path="/escolherPerfil" element={<EscolherPerfil />} />
         <Route path="/selecaoConteudo" element={<SelecaoConteudo/>} />   {/* Using MainMenu as a component */}
       </Routes>
+      
     </Router>
   );
 }
