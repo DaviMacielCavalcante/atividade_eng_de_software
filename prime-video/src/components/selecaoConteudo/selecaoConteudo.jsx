@@ -4,7 +4,8 @@ import styles from './selecaoConteudo.module.css';
 const SelecaoConteudo = () => {
   const [ratings, setRatings] = useState({});
   const [publishedRatings, setPublishedRatings] = useState({}); // Armazena avaliações publicadas
-
+  const [searchTerm, setSearchTerm] = useState('');
+  
   const contents = [
     { title: 'Sonic', category: 'Aventura', url: 'https://www.youtube.com/watch?v=TXPkr5HcvBs&pp=ygUHdHJhaWxlcg%3D%3D' },
     { title: 'Minecraft', category: 'Fantasia', url: 'https://www.youtube.com/watch?v=1QmCrEajUQM&pp=ygUHdHJhaWxlcg%3D%3D' },
@@ -64,21 +65,39 @@ const SelecaoConteudo = () => {
     }, 5000);
   };
 
-  return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Escolha o Conteúdo para Avaliar e Assistir</h1>
-      <div className={styles.cardsContainer}>
-        {contents.map((content, index) => (
+  const filteredContents = contents.filter(content => 
+    content.title.toLowerCase().startsWith(searchTerm.trim().toLowerCase())
+);
+
+return (
+  <div className={styles.container}>
+    <h1 className={styles.title}>Escolha o Conteúdo para Avaliar e Assistir</h1>
+    
+    {/* Barra de Pesquisa */}
+    <input
+      type="text"
+      className={styles.searchBar}
+      placeholder="Pesquise o título do filme"
+      value={searchTerm}
+      onChange={(e) => setSearchTerm(e.target.value)}
+    />
+
+    <div className={styles.cardsContainer}>
+      {filteredContents.length === 0 ? (
+        <p className={styles.noContentMessage}>Conteúdo indisponível</p>
+      ) : (
+        filteredContents.map((content, index) => (
           <div key={index} className={styles.card}>
             <h3>{content.title}</h3>
             <p>Categoria: {content.category}</p>
-            <p>Média de Avaliação: {getAverageRating(content.title)}</p> 
+            <p>Média de Avaliação: {getAverageRating(content.title)}</p>
             <div className={styles.rating}>
               <label htmlFor={`rating-${index}`}>Estrelas:</label>
               <select
                 id={`rating-${index}`}
                 value={ratings[content.title] || 0}
-                onChange={(e) => handleRatingChange(content.title, e.target.value)}>
+                onChange={(e) => handleRatingChange(content.title, e.target.value)}
+              >
                 <option value="0">0</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -91,13 +110,14 @@ const SelecaoConteudo = () => {
               Assistir
             </button>
             <button className={styles.publishButton} onClick={() => handlePublishRating(content.title)}>
-              Avaliar 
-            </button> 
+              Avaliar
+            </button>
           </div>
-        ))}
-      </div>
+        ))
+      )}
     </div>
-  );
-};
+  </div>
+);
+}
 
 export default SelecaoConteudo;
