@@ -1,37 +1,54 @@
 import React, { useState } from 'react';
-import styles from './escolherPerfil.module.css';  // Estilos CSS module para essa página
+import styles from './escolherPerfil.module.css';  
 import { useNavigate } from 'react-router-dom';
 
-const profiles = [
-  { id: '1', name: 'Perfil 1' },
-  { id: '2', name: 'Perfil 2' },
-  { id: '3', name: 'Perfil 3' },
-  { id: '4', name: 'Perfil 4' },
-];
-
 function EscolherPerfil() {
-
-  const [valid, setValid] = useState(false);
+  const [profiles, setProfiles] = useState([]);  
+  const [newProfile, setNewProfile] = useState(''); 
+  const [selectedProfile, setSelectedProfile] = useState(null);
+  const [error, setError] = useState(''); 
   const navigate = useNavigate();
 
-  const [selectedProfile, setSelectedProfile] = useState(null);
-
+  
   const handleProfileSelect = (profile) => {
     setSelectedProfile(profile.id);
+    navigate('/selecaoConteudo'); 
+  };
+
+  
+  const addProfile = () => {
+    if (newProfile.trim() === "") {  
+      setError("Por favor, digite o nome do perfil!");  
+    } else {
+      const newId = (profiles.length + 1).toString();  
+      const newProfileObj = { id: newId, name: newProfile };  
+      setProfiles([...profiles, newProfileObj]);
+      setNewProfile('');
+      setError(''); 
+    }
   };
 
   return (
     <div className={styles.container}>
-      <h1>Escolha um perfil</h1>
+      <h1>Escolha ou Adicione um Perfil</h1>
+
+      <input
+        type="text"
+        value={newProfile}
+        onChange={(e) => setNewProfile(e.target.value)} 
+        placeholder="Digite o nome do perfil"
+      />
+      <button onClick={addProfile}>Adicionar Perfil</button>  
+
+      
+      {error && <p className={styles.error}>{error}</p>}  
+
       <ul className={styles.profileList}>
         {profiles.map((profile) => (
-          <li 
-            key={profile.id} 
+          <li
+            key={profile.id}
             className={`${styles.profileItem} ${profile.id === selectedProfile ? styles.selected : ''}`}
-            onClick={() => {
-              handleProfileSelect(profile)
-              navigate('/selecaoConteudo')
-            }}
+            onClick={() => handleProfileSelect(profile)}  
           >
             {profile.name}
           </li>
