@@ -1,0 +1,49 @@
+body {
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background-color: white;
+  display: flexbox;
+  flex-flow: row;
+  justify-content: center;
+  padding: 200px;
+  width: 300px;
+  color: black;
+}
+.container2 {
+  background-color: white;
+  display: flexbox;
+  flex-flow: row;
+  justify-content: center;
+  padding: 200px;
+  width: 200px;
+  color: black;
+}
+
+.profileItem {
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+
+.customNotification { 
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: red;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  animation: fadeout 6s forwards;
+  opacity: 1;
+}

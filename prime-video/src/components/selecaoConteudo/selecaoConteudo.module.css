@@ -8,6 +8,13 @@
   margin: auto;
 }
 
+.center{
+  
+  display: flexbox;
+  align-self: center;
+  
+  
+}
 .title {
   color: #333;
   margin-bottom: 20px;
