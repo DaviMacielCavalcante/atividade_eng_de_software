@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './selecaoConteudo.module.css';
+import { useNavigate } from 'react-router-dom';
 
 const SelecaoConteudo = () => {
+  
+  const [valid, setValid] = useState(false);
+  const navigate = useNavigate();
   const contents = [
     { title: 'Sonic', url: 'https://www.youtube.com/watch?v=TXPkr5HcvBs&pp=ygUHdHJhaWxlcg%3D%3D', sinopse: 'O filme segue as aventuras de Sonic enquanto ele tenta se adaptar à sua nova vida na Terra com seu recém-descoberto melhor amigo humano Tom Wachowski (James Marsden). Sonic e Tom unem forças para tentar impedir que o vilão Dr. Robotnik (Jim Carrey) capture Sonic e use seus poderes para dominar o mundo.' },
     { title: 'Minecraft', url: 'https://www.youtube.com/watch?v=1QmCrEajUQM&pp=ygUHdHJhaWxlcg%3D%3D', sinopse: 'A trama gira em torno de um grupo de amigos que são transportados para um mundo mágico feito de blocos, onde enfrentam desafios e descobrem habilidades únicas.' },
@@ -34,7 +38,10 @@ const SelecaoConteudo = () => {
   };
 
   return (
+    <div className={styles.center}>
+    <button onClick={() => navigate('/menuPrincipal')}>Menu Principal</button>
     <div className={styles.container}>
+    
       <h1 className={styles.title}>Escolha o Conteúdo para Reproduzir</h1>
       <ul>
         {contents.map((content, index) => (
@@ -48,6 +55,8 @@ const SelecaoConteudo = () => {
           </li>
         ))}
       </ul>
+      
+    </div>
     </div>
   );
 };

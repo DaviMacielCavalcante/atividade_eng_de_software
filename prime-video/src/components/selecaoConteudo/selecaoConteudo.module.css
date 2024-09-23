@@ -10,6 +10,13 @@
   margin-top: 60px;
 }
 
+.center{
+  
+  display: flexbox;
+  align-self: center;
+  
+  
+}
 .title {
   color: rgb(255, 255, 255);
   margin-bottom: 20px;
