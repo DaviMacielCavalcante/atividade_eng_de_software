@@ -75,7 +75,9 @@ const SelecaoConteudo = () => {
 );
 
 return (
+  
   <div className={styles.container}>
+  <button onClick={() => navigate('/menuPrincipal')}>Menu Principal</button>
     <h1 className={styles.title}>Escolha o Conteúdo para Avaliar e Assistir</h1>
     
     {/* Barra de Pesquisa */}
