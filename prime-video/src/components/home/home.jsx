@@ -50,7 +50,7 @@ function Home() {
           placeholder="digite sua senha"
         />
         <div>
-          <button onClick={validateCredentials}>Login</button>
+          <button className={styles.button} onClick={validateCredentials}>Login</button>
           {validateCredentials && <p>{msg}</p>}
         </div>
       </div>
