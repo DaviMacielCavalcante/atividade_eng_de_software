@@ -1,30 +1,19 @@
 import React, { useState } from 'react';
-import styles from './menuPrincipal.module.css';  // Estilos CSS module para essa página
+import styles from './menuPrincipal.module.css';
 import { useNavigate } from 'react-router-dom';
 
-
 function MenuPrincipal() {
-
-
-  const [valid, setValid] = useState(false);
   const navigate = useNavigate();
 
   const showCustomError = (message) => {
     const notification = document.createElement('div');
-    notification.className = styles.customNotification; 
+    notification.className = styles.customNotification;
     notification.innerText = message;
     document.body.appendChild(notification);
 
     setTimeout(() => {
       notification.remove();
     }, 10000);
-  };
-
-
-  const [selectedProfile, setSelectedProfile] = useState(null);
-
-  const handleProfileSelect = (profile) => {
-    setSelectedProfile(profile.id);
   };
 
   return (
@@ -34,7 +23,6 @@ function MenuPrincipal() {
       <button onClick={() => navigate('/selecaoConteudo')}>Vídeos</button>
       <button onClick={() => showCustomError("Opção não disponível!")}>Configurações</button>
       <button onClick={() => navigate('/')}>Sair da conta</button>
-      
     </div>
   );
 }
