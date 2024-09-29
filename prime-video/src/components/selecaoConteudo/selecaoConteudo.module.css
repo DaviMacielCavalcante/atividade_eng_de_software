@@ -109,7 +109,6 @@ li:hover .tooltip {
     transform: translateY(10px);
   }
 }
-/* Menu Hamburguer */
 .menuButton {
   background: none;
   border: none;
@@ -117,7 +116,6 @@ li:hover .tooltip {
   cursor: pointer;
 }
 
-/* Estilos para diferentes tamanhos de tela */
 @media (min-width: 600px) {
   .menuButton {
     display: none;
