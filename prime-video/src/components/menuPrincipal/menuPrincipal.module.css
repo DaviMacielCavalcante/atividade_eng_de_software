@@ -7,22 +7,28 @@ body {
 }
 
 .container {
+  width: 300px;
   background-color: white;
-  display: flexbox;
-  flex-flow: row;
+  display: flex;
+  flex-flow: column;
   justify-content: center;
-  padding: 200px;
+  padding: 20px;
   width: 300px;
   color: black;
+  box-sizing: border-box;
+  border-radius: 8px;
 }
 .container2 {
+  width: 200px;
   background-color: white;
-  display: flexbox;
-  flex-flow: row;
+  display: flex;
+  flex-flow: column;
   justify-content: center;
   padding: 200px;
   width: 200px;
   color: black;
+  box-sizing: border-box;
+
 }
 
 .profileItem {
@@ -31,6 +37,7 @@ body {
   border: 1px solid #ccc;
   border-radius: 4px;
   cursor: pointer;
+  text-align: center;
 }
 
 
@@ -46,4 +53,21 @@ body {
   z-index: 1000;
   animation: fadeout 6s forwards;
   opacity: 1;
+}
+
+@media (max-width: 760px){
+  body {
+    height: auto;
+    justify-content: center; 
+    padding: 20px;
+  }
+  .container, .container2{
+    padding: 10px;
+    width: 100%; 
+    max-width: 100%;
+    margin-bottom: 20px; 
+  }
+  .profileItem{
+    font-size: 14px
+}
 }

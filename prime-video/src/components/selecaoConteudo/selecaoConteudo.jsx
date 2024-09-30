@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './selecaoConteudo.module.css';
 import { useNavigate } from 'react-router-dom';
 
 const SelecaoConteudo = () => {
   const [ratings, setRatings] = useState({});
-  const [publishedRatings, setPublishedRatings] = useState({}); // Armazena avaliações publicadas
+  const [publishedRatings, setPublishedRatings] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
-  
-  const [valid, setValid] = useState(false);
+  const [showCategories, setShowCategories] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 600);
   const navigate = useNavigate();
+
   const contents = [
     { title: 'Sonic', category: 'Aventura', url: 'https://www.youtube.com/watch?v=TXPkr5HcvBs&pp=ygUHdHJhaWxlcg%3D%3D' },
     { title: 'Minecraft', category: 'Fantasia', url: 'https://www.youtube.com/watch?v=1QmCrEajUQM&pp=ygUHdHJhaWxlcg%3D%3D' },
@@ -20,15 +23,16 @@ const SelecaoConteudo = () => {
     { title: 'The Last of Us', category: 'Drama', url: 'https://www.youtube.com/watch?v=ObiBEgSaoqs&pp=ygUHdHJhaWxlcg%3D%3D' },
     { title: 'Mulan', category: 'Ação', url: null }
   ];
-  
-  const [showCategories, setShowCategories] = useState(false); // Controla exibição das categorias
-  const [selectedCategory, setSelectedCategory] = useState(''); // Filtra categoria selecionada
+
+  const handleMenuToggle = () => {
+    setMenuOpen(!menuOpen);
+  };
 
   const handleCategoryClick = (category) => {
-    setSelectedCategory(category); // Define a categoria selecionada
-    setShowCategories(false); // Fecha o menu de categorias após seleção
+    setSelectedCategory(category);
+    setShowCategories(false);
   };
-  
+
   const handleRatingChange = (title, value) => {
     setRatings(prevRatings => ({
       ...prevRatings,
@@ -48,7 +52,6 @@ const SelecaoConteudo = () => {
       };
     });
   };
-
 
   const getAverageRating = (title) => {
     const ratings = publishedRatings[title] || [];
@@ -82,72 +85,85 @@ const SelecaoConteudo = () => {
     return matchesSearchTerm && matchesCategory;
   });
 
-return (
-  
-  <div className={styles.container}>
-  <button onClick={() => navigate('/menuPrincipal')}>Menu Principal</button>
-  <h1 className={styles.title}>Escolha o Conteúdo para Avaliar e Assistir</h1>
-  
-  <button onClick={() => setShowCategories(!showCategories)}>
-    Categorias
-  </button>
-  {showCategories && (
-    <div className={styles.categories}>
-      <button onClick={() => setSelectedCategory('Ação')}>Ação</button>
-      <button onClick={() => setSelectedCategory('Aventura')}>Aventura</button>
-      <button onClick={() => setSelectedCategory('Drama')}>Drama</button>
-      <button onClick={() => setSelectedCategory('Animação')}>Animação</button>
-      <button onClick={() => setSelectedCategory('Terror')}>Terror</button>
-      <button onClick={() => setSelectedCategory('Suspense')}>Suspense</button>
-      <button onClick={() => setSelectedCategory('')}>Todos</button> {/* Para remover o filtro de categoria */}
-    </div>
-  )}
+  useEffect(() => {
+    const handleResize = () => setIsLargeScreen(window.innerWidth >= 600);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
-  {/* Barra de Pesquisa */}
-  <input
-    type="text"
-    className={styles.searchBar}
-    placeholder="Pesquise o título do filme"
-    value={searchTerm}
-    onChange={(e) => setSearchTerm(e.target.value)}
-  />
+  return (
+    <div className={styles.container}>
+      <button className={styles.menuButton} onClick={handleMenuToggle}>
+        {menuOpen ? '✕' : '≡'}
+      </button>
+      {(menuOpen || isLargeScreen) && (
+        <button onClick={() => navigate('/menuPrincipal')}>
+          Menu Principal
+        </button>
+      )}
 
-  <div className={styles.cardsContainer}>
-    {filteredContents.length === 0 ? (
-      <p className={styles.noContentMessage}>Conteúdo indisponível</p>
-    ) : (
-      filteredContents.map((content, index) => (
-        <div key={index} className={styles.card}>
-          <h3>{content.title}</h3>
-          <p>Categoria: {content.category}</p>
-          <p>Média de Avaliação: {getAverageRating(content.title)}</p>
-          <div className={styles.rating}>
-            <label htmlFor={`rating-${index}`}>Estrelas:</label>
-            <select
-              id={`rating-${index}`}
-              value={ratings[content.title] || 0}
-              onChange={(e) => handleRatingChange(content.title, e.target.value)}
-            >
-              <option value="0">0</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
-          </div>
-          <button className={styles.watchButton} onClick={() => handleButtonClick(content)}>
-            Assistir
-          </button>
-          <button className={styles.publishButton} onClick={() => handlePublishRating(content.title)}>
-            Avaliar
-          </button>
+      <h1 className={styles.title}>Escolha o Conteúdo para Avaliar e Assistir</h1>
+
+      <button onClick={() => setShowCategories(!showCategories)}>
+        Categorias
+      </button>
+      {showCategories && (
+        <div className={styles.categories}>
+          <button onClick={() => setSelectedCategory('Ação')}>Ação</button>
+          <button onClick={() => setSelectedCategory('Aventura')}>Aventura</button>
+          <button onClick={() => setSelectedCategory('Drama')}>Drama</button>
+          <button onClick={() => setSelectedCategory('Animação')}>Animação</button>
+          <button onClick={() => setSelectedCategory('Terror')}>Terror</button>
+          <button onClick={() => setSelectedCategory('Suspense')}>Suspense</button>
+          <button onClick={() => setSelectedCategory('')}>Todos</button>
         </div>
-      ))
-    )}
-  </div>
-</div>
-)
-}
+      )}
+
+      {/* Barra de Pesquisa */}
+      <input
+        type="text"
+        className={styles.searchBar}
+        placeholder="Pesquise o título do filme"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+
+      <div className={styles.cardsContainer}>
+        {filteredContents.length === 0 ? (
+          <p className={styles.noContentMessage}>Conteúdo indisponível</p>
+        ) : (
+          filteredContents.map((content, index) => (
+            <div key={index} className={styles.card}>
+              <h3>{content.title}</h3>
+              <p>Categoria: {content.category}</p>
+              <p>Média de Avaliação: {getAverageRating(content.title)}</p>
+              <div className={styles.rating}>
+                <label htmlFor={`rating-${index}`}>Estrelas:</label>
+                <select
+                  id={`rating-${index}`}
+                  value={ratings[content.title] || 0}
+                  onChange={(e) => handleRatingChange(content.title, e.target.value)}
+                >
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+              </div>
+              <button className={styles.watchButton} onClick={() => handleButtonClick(content)}>
+                Assistir
+              </button>
+              <button className={styles.publishButton} onClick={() => handlePublishRating(content.title)}>
+                Avaliar
+              </button>
+            </div>
+          ))
+        )}
+      </div>
+    </div>
+  );
+};
 
 export default SelecaoConteudo;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './escolherPerfil.module.css';  
+import styles from './escolherPerfil.module.css';
 import { useNavigate } from 'react-router-dom';
 
 function EscolherPerfil() {
@@ -9,13 +9,11 @@ function EscolherPerfil() {
   const [error, setError] = useState(''); 
   const navigate = useNavigate();
 
-  
   const handleProfileSelect = (profile) => {
     setSelectedProfile(profile.id);
     navigate('/selecaoConteudo'); 
   };
 
-  
   const addProfile = () => {
     if (newProfile.trim() === "") {  
       setError("Por favor, digite o nome do perfil!");  
@@ -40,20 +38,24 @@ function EscolherPerfil() {
       />
       <button onClick={addProfile}>Adicionar Perfil</button>  
 
-      
       {error && <p className={styles.error}>{error}</p>}  
 
-      <ul className={styles.profileList}>
-        {profiles.map((profile) => (
-          <li
-            key={profile.id}
-            className={`${styles.profileItem} ${profile.id === selectedProfile ? styles.selected : ''}`}
-            onClick={() => handleProfileSelect(profile)}  
-          >
-            {profile.name}
-          </li>
-        ))}
-      </ul>
+      {profiles.length > 0 ? (
+        <ul className={styles.profileList}>
+          {profiles.map((profile) => (
+            <li
+              key={profile.id}
+              className={`${styles.profileItem} ${profile.id === selectedProfile ? styles.selected : ''}`}
+              onClick={() => handleProfileSelect(profile)}
+            >
+              {profile.name}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>Nenhum perfil criado ainda</p>
+      )}
+
       {selectedProfile && (
         <p>Perfil selecionado: {profiles.find(p => p.id === selectedProfile).name}</p>
       )}
